@@ -59,48 +59,46 @@ Burstcoin can be build using maven or the compile scripts within this repository
 
 For further information, please visit the following pages.
 
-### Home
-https://web.burst-team.us
+### Websites
+
+https://www.burst-team.us
+http://www.burstwallet.io
+http://www.burstfaq.com
+https://www.burstcoin.ist
 
 ### Block-Explorer
-http://burstcoin.biz
 
-### Forum
+http://burstcoin.biz
+http://burstcoin.cc
+
+### Forums
+
 https://forums.burst-team.us
+https://burstnation.com
 
 ### Bitcointalk
+
 https://bitcointalk.org/index.php?topic=1541310 *(New unmoderated)*
-
-https://bitcointalk.org/index.php?topic=1323657 *(Alternative moderated)*
-
 https://bitcointalk.org/index.php?topic=731923 *(Original unmoderated)*
 
 ### Related repositories
+
 https://github.com/BurstProject *Original/Forked Burstcoin, ATDebugger, ATAssembler, POCMiner (Proof of concept plotter/miner), etc.*
-
 https://github.com/IceBurst/Burst *Burst for Android*
-
-https://github.com/dawallet/ *Burstcoin Win Client, Android App*
-
+https://github.com/SOELexicon/ *Pool Code, All-in-One Wallet*
+https://github.com/dawallet/ *Burstcoin Win Client AIO*
 https://github.com/Blagodarenko  *Blago's XPlotter, Windows Miner, PlotsChecker, etc.*
-
 https://github.com/de-luxe *GPU assisted jMiner, Faucet Software, Observer, AddressGenerator*
-
 https://github.com/Creepsky/creepMiner *C++ Crossplatform Miner*
-
+https://github.com/antonyip/BurstAT *Smart Contract Development*
 https://github.com/BurstTools/BurstSoftware *Windows Plot Generator for SEE4/AVX2*
-
 https://github.com/bhamon *gpuPlotGenerator, BurstMine (graphical plotter/miner)*
-
 https://github.com/kartojal *GUI for Dcct Tools, GUI for gpuPlotGenerator (linux)*
-
 https://github.com/Kurairaito *Burst Plot Generator by Kurairaito*
-
 https://github.com/Mirkic7 *Improved Linux Burst Plotter / optimizer / miner (linux)*
-
 https://github.com/uraymeiviar *C Miner, Pool, Block Explorer, Plot Composer (linux)*
-
 https://github.com/mrpsion/burst-mining-system *Web interface for Plotting and Mining*
 
 ### Additional Software
+
 https://forums.burst-team.us/category/9/burst-software
