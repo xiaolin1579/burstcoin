@@ -105,7 +105,7 @@ public final class Db {
     public static void analyzeTables() {
         try (Connection con = cp.getConnection();
              Statement stmt = con.createStatement()) {
-            stmt.execute("ANALYZE SAMPLE_SIZE 0");
+            stmt.execute("ANALYZE");
         } catch (SQLException e) {
             throw new RuntimeException(e.toString(), e);
         }
