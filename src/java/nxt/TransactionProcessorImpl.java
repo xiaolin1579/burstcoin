@@ -480,8 +480,6 @@ final class TransactionProcessorImpl implements TransactionProcessor {
                     continue;
                 }
                 if(!EconomicClustering.verifyFork(transaction)) {
-            } catch (NxtException.NotCurrentlyValidException ignore) {
-            } catch (NxtException.NotValidException e) {
                 Logger.logDebugMessage("Invalid transaction from peer: " + ((JSONObject) transactionData).toJSONString());
                 throw e;
             }
