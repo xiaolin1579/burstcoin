@@ -181,13 +181,11 @@ public final class APIServlet extends HttpServlet {
         map.put("getATIds", GetATIds.instance);
         map.put("getATLong", GetATLong.instance);
         map.put("getAccountATs", GetAccountATs.instance);
-
-        if (API.enableDebugAPI) {
-        	map.put("clearUnconfirmedTransactions", ClearUnconfirmedTransactions.instance);
-            map.put("fullReset", FullReset.instance);
-            map.put("popOff", PopOff.instance);
-            map.put("scan", Scan.instance);
-        }
+        map.put("requeueAllUnconfirmedTransactions", RequeueUnconfirmedTransactions.instance);
+        map.put("clearUnconfirmedTransactions", ClearUnconfirmedTransactions.instance);
+        map.put("fullReset", FullReset.instance);
+        map.put("popOff", PopOff.instance);
+        map.put("scan", Scan.instance);
 
         apiRequestHandlers = Collections.unmodifiableMap(map);
     }

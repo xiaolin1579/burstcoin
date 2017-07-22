@@ -1,10 +1,6 @@
 package nxt.peer;
 
-import nxt.Account;
-import nxt.Block;
-import nxt.Constants;
-import nxt.Nxt;
-import nxt.Transaction;
+import nxt.*;
 import nxt.db.Db;
 import nxt.util.*;
 import org.eclipse.jetty.server.Server;
@@ -402,7 +398,7 @@ public final class Peers {
                     if (peer == null) {
                         return;
                     }
-                    JSONObject response = peer.send(getPeersRequest);
+                    JSONObject response = peer.send(getPeersRequest, 1024);
                     if (response == null) {
                         return;
                     }
@@ -433,7 +429,7 @@ public final class Peers {
                         JSONObject request = new JSONObject();
                         request.put("requestType", "addPeers");
                         request.put("peers", myPeers);
-                        peer.send(JSON.prepareRequest(request));
+                        peer.send(JSON.prepareRequest(request), 1024);
                     }
 
                 } catch (Exception e) {
@@ -655,7 +651,7 @@ public final class Peers {
         sendToSomePeers(request);
     }
 
-    public static void sendToSomePeers(List<Transaction> transactions) {
+    public static void sendToSomePeers(List<? extends Transaction> transactions) {
         JSONObject request = new JSONObject();
         JSONArray transactionsData = new JSONArray();
         for (Transaction transaction : transactions) {
@@ -685,7 +681,7 @@ public final class Peers {
                         Future<JSONObject> futureResponse = sendToPeersService.submit(new Callable<JSONObject>() {
                             @Override
                             public JSONObject call() {
-                                return peer.send(jsonRequest);
+                                return peer.send(jsonRequest, 1024);
                             }
                         });
                         expectedResponses.add(futureResponse);
@@ -713,6 +709,7 @@ public final class Peers {
             }
         });
     }
+
 
     public static void rebroadcastTransactions(List<Transaction> transactions) {
         String info = "Rebroadcasting transactions: ";
@@ -747,7 +744,7 @@ public final class Peers {
                         sendToPeersService.submit(new Callable<JSONObject>() {
                             @Override
                             public JSONObject call() {
-                                return peer.send(jsonRequest);
+                                return peer.send(jsonRequest, 1024);
                             }
                         });
                     }

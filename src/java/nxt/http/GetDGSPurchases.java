@@ -32,7 +32,7 @@ public final class GetDGSPurchases extends APIServlet.APIRequestHandler {
         JSONArray purchasesJSON = new JSONArray();
         response.put("purchases", purchasesJSON);
 
-        if (sellerId == 0 && buyerId == 0) {
+      /*  if (sellerId == 0 && buyerId == 0) {
             try (FilteringIterator<DigitalGoodsStore.Purchase> purchaseIterator = new FilteringIterator<>(DigitalGoodsStore.getAllPurchases(0, -1),
                     new FilteringIterator.Filter<DigitalGoodsStore.Purchase>() {
                         @Override
@@ -65,7 +65,7 @@ public final class GetDGSPurchases extends APIServlet.APIRequestHandler {
             while (purchaseIterator.hasNext()) {
                 purchasesJSON.add(JSONData.purchase(purchaseIterator.next()));
             }
-        }
+        }*/
         return response;
     }
 

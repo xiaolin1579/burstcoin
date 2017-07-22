@@ -11,13 +11,13 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 final class TransactionImpl implements Transaction {
+
 
     static final class BuilderImpl implements Builder {
 
@@ -190,6 +190,7 @@ final class TransactionImpl implements Transaction {
     private volatile long senderId;
     private volatile String fullHash;
     private volatile DbKey dbKey;
+    private volatile byte[] bytes = null;
 
     private TransactionImpl(BuilderImpl builder) throws NxtException.NotValidException {
 
@@ -208,7 +209,7 @@ final class TransactionImpl implements Transaction {
         this.senderId = builder.senderId;
         this.blockTimestamp = builder.blockTimestamp;
         this.fullHash = builder.fullHash;
-		this.ecBlockHeight = builder.ecBlockHeight;
+        this.ecBlockHeight = builder.ecBlockHeight;
         this.ecBlockId = builder.ecBlockId;
 
         List<Appendix.AbstractAppendix> list = new ArrayList<>();
@@ -514,6 +515,7 @@ final class TransactionImpl implements Transaction {
         }
     }
 
+
     static TransactionImpl parseTransaction(byte[] bytes) throws NxtException.ValidationException {
         try {
             ByteBuffer buffer = ByteBuffer.wrap(bytes);
@@ -728,6 +730,10 @@ final class TransactionImpl implements Transaction {
         return signatureOffset() + 64  + (version > 0 ? 4 + 4 + 8 : 0) + appendagesSize;
     }
 
+    int getFullSize() {
+        return getSize() - appendagesSize;
+    }
+
     private int signatureOffset() {
         return 1 + 1 + 4 + 2 + 32 + 8 + (useNQT() ? 8 + 8 + 32 : 4 + 4 + 8);
     }
@@ -809,6 +815,8 @@ final class TransactionImpl implements Transaction {
         Account senderAccount = Account.getAccount(getSenderId());
         type.undoUnconfirmed(this, senderAccount);
     }
+
+
 
     boolean isDuplicate(Map<TransactionType, Set<String>> duplicates) {
         return type.isDuplicate(this, duplicates);

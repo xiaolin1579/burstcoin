@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface TransactionProcessor extends Observable<List<? extends Transaction>,TransactionProcessor.Event> {
 
+
     public static enum Event {
         REMOVED_UNCONFIRMED_TRANSACTIONS,
         ADDED_UNCONFIRMED_TRANSACTIONS,
@@ -20,6 +21,8 @@ public interface TransactionProcessor extends Observable<List<? extends Transact
     Transaction getUnconfirmedTransaction(long transactionId);
     
     void clearUnconfirmedTransactions();
+
+    void requeueAllUnconfirmedTransactions();
 
     void broadcast(Transaction transaction) throws NxtException.ValidationException;
 

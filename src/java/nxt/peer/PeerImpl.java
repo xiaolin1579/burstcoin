@@ -34,7 +34,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
@@ -295,7 +294,7 @@ final class PeerImpl implements Peer {
     }
 
     @Override
-    public JSONObject send(final JSONStreamAware request) {
+    public JSONObject send(final JSONStreamAware request, int i) {
 
         JSONObject response;
 
@@ -403,6 +402,7 @@ final class PeerImpl implements Peer {
 
     }
 
+
     @Override
     public int compareTo(Peer o) {
         if (getWeight() > o.getWeight()) {
@@ -413,8 +413,8 @@ final class PeerImpl implements Peer {
         return 0;
     }
 
-    void connect() {
-        JSONObject response = send(Peers.myPeerInfoRequest);
+     void connect() {
+        JSONObject response = send(Peers.myPeerInfoRequest, 1024);
         if (response != null) {
             application = (String)response.get("application");
             setVersion((String) response.get("version"));
@@ -442,6 +442,7 @@ final class PeerImpl implements Peer {
             setState(State.NON_CONNECTED);
         }
     }
+
 
     boolean analyzeHallmark(String address, final String hallmarkString) {
 

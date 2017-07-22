@@ -467,8 +467,19 @@ public final class JSONData {
         json.put("hex2long", longString);
         return json;
     }
-   
-    
+
+    static void putException(JSONObject json, Exception e) {
+        putException(json, e, "");
+    }
+
+    static void putException(JSONObject json, Exception e, String error) {
+        json.put("errorCode", 4);
+        if (error.length() > 0) {
+            error += ": ";
+        }
+        json.put("error", e.toString());
+        json.put("errorDescription", error + e.getMessage());
+    }
     
     private JSONData() {} // never
 

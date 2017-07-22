@@ -129,6 +129,7 @@ public abstract class EntityDbTable<T> extends DerivedDbTable {
         }
     }
 
+
     public DbIterator<T> getManyBy(DbClause dbClause, int from, int to) {
         return getManyBy(dbClause, from, to, defaultSort());
     }
@@ -311,5 +312,7 @@ public abstract class EntityDbTable<T> extends DerivedDbTable {
         super.truncate();
         Db.getCache(table).clear();
     }
+
+
 
 }
