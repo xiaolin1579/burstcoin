@@ -26,7 +26,7 @@ public final class GetAliases extends APIServlet.APIRequestHandler {
         int lastIndex = ParameterParser.getLastIndex(req);
 
         JSONArray aliases = new JSONArray();
-        try (FilteringIterator<Alias> aliasIterator = new FilteringIterator<>(Alias.getAliasesByOwner(accountId, 0, -1),
+     /*   try (FilteringIterator<Alias> aliasIterator = new FilteringIterator<>(Alias.getAliasesByOwner(accountId, 0, -1),
                 new Filter<Alias>() {
                     @Override
                     public boolean ok(Alias alias) {
@@ -37,8 +37,9 @@ public final class GetAliases extends APIServlet.APIRequestHandler {
                 aliases.add(JSONData.alias(aliasIterator.next()));
             }
         }
-
+    */
         JSONObject response = new JSONObject();
+
         response.put("aliases", aliases);
         return response;
     }

@@ -36,6 +36,9 @@ final class TransactionProcessorImpl implements TransactionProcessor {
 
     private static final boolean enableTransactionRebroadcasting = Nxt.getBooleanProperty("nxt.enableTransactionRebroadcasting");
     private static final boolean testUnconfirmedTransactions = Nxt.getBooleanProperty("nxt.testUnconfirmedTransactions");
+
+    private static final int rebroadcastAfter = Nxt.getIntProperty("burst.rebroadcastAfter") != 0 ? Nxt.getIntProperty("burst.rebroadcastAfter") : 4;
+    private static final int rebroadcastEvery = Nxt.getIntProperty("burst.rebroadcastEvery") != 0 ? Nxt.getIntProperty("burst.rebroadcastEvery") : 2;
     private static final int maxUnconfirmedTransactions;
     static {
         int n = Nxt.getIntProperty("nxt.maxUnconfirmedTransactions");
@@ -89,7 +92,7 @@ final class TransactionProcessorImpl implements TransactionProcessor {
 
                 @Override
                 protected String defaultSort() {
-                    return " ORDER BY transaction_height ASC, fee_per_byte DESC, id ASC ";
+                    return " ORDER BY transaction_height ASC, fee_per_byte DESC, timestamp ASC, id ASC ";
                 }
 
             };

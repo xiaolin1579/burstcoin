@@ -227,7 +227,7 @@ final class TransactionDb {
         }
     }
 
-    static void saveTransactions(Connection con, AT at, Block block) {
+    /*static void saveTransactions(Connection con, AT at, Block block) {
 		try {
 			for ( AT_Transaction transaction : at.getTransactions() ) {
 				try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO transaction (id, deadline, sender_public_key, "
@@ -242,7 +242,7 @@ final class TransactionDb {
 					byte[] hash;
 
 					Account senderAccount = Account.getAccount( AT_API_Helper.getLong( at.getId() ) );
-					Account recipientAccount = Account.getAccount( AT_API_Helper.getLong( transaction.getRecipientId() ) ); 
+					Account recipientAccount = Account.getAccount( AT_API_Helper.getLong( transaction.getRecipientId() ) );
 
 					Long totalAmount = transaction.getAmount();
 
@@ -328,5 +328,5 @@ final class TransactionDb {
 		} catch (SQLException e) {
 			throw new RuntimeException(e.toString(), e);
 		}
-	}
+	}*/
 }

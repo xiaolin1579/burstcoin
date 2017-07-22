@@ -15,7 +15,7 @@ public final class GetAllTrades extends APIServlet.APIRequestHandler {
     static final GetAllTrades instance = new GetAllTrades();
 
     private GetAllTrades() {
-        super(new APITag[] {APITag.AE}, "timestamp", "firstIndex", "lastIndex", "includeAssetInfo");
+        super(new APITag[]{APITag.AE}, "timestamp", "firstIndex", "lastIndex", "includeAssetInfo");
     }
 
     @Override
@@ -27,7 +27,7 @@ public final class GetAllTrades extends APIServlet.APIRequestHandler {
 
         JSONObject response = new JSONObject();
         JSONArray trades = new JSONArray();
-        try (FilteringIterator<Trade> tradeIterator = new FilteringIterator<>(Trade.getAllTrades(0, -1),
+      /*  try (FilteringIterator<Trade> tradeIterator = new FilteringIterator<>(Trade.getAllTrades(0, -1),
                 new Filter<Trade>() {
                     @Override
                     public boolean ok(Trade trade) {
@@ -38,8 +38,10 @@ public final class GetAllTrades extends APIServlet.APIRequestHandler {
                 trades.add(JSONData.trade(tradeIterator.next(), includeAssetInfo));
             }
         }
+        */
         response.put("trades", trades);
         return response;
     }
 
-}
+    }
+

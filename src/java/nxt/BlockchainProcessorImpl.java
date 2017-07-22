@@ -893,22 +893,22 @@ final class BlockchainProcessorImpl implements BlockchainProcessor {
 						throw new TransactionNotAcceptedException("Invalid transaction version " + transaction.getVersion()
 								+ " at height " + previousLastBlock.getHeight(), transaction);
 					}
-					if (!transaction.verifySignature()) { // moved to preVerify
+					/*if (!transaction.verifySignature()) { // moved to preVerify
 						throw new TransactionNotAcceptedException("Signature verification failed for transaction "
 								+ transaction.getStringId() + " at height " + previousLastBlock.getHeight(), transaction);
+					}*/
+					if(!transaction.verifyPublicKey()) {
+						throw new TransactionNotAcceptedException("Wrong public key in transaction " + transaction.getStringId() + " at height " + previousLastBlock.getHeight(), transaction);
 					}
-                    if(!transaction.verifyPublicKey()) {
-                        throw new TransactionNotAcceptedException("Wrong public key in transaction " + transaction.getStringId() + " at height " + previousLastBlock.getHeight(), transaction);
-                    }
 					if (Nxt.getBlockchain().getHeight() >= Constants.AUTOMATED_TRANSACTION_BLOCK) {
-	                    if (!EconomicClustering.verifyFork(transaction)) {
-	                        Logger.logDebugMessage("Block " + block.getStringId() + " height " + (previousLastBlock.getHeight() + 1)
-	                                + " contains transaction that was generated on a fork: "
-	                                + transaction.getStringId() + " ecBlockHeight " + transaction.getECBlockHeight() + " ecBlockId "
-	                                + Convert.toUnsignedLong(transaction.getECBlockId()));
-	                        throw new TransactionNotAcceptedException("Transaction belongs to a different fork", transaction);
-	                    }
-                    }
+						if (!EconomicClustering.verifyFork(transaction)) {
+							Logger.logDebugMessage("Block " + block.getStringId() + " height " + (previousLastBlock.getHeight() + 1)
+									+ " contains transaction that was generated on a fork: "
+									+ transaction.getStringId() + " ecBlockHeight " + transaction.getECBlockHeight() + " ecBlockId "
+									+ Convert.toUnsignedLong(transaction.getECBlockId()));
+							throw new TransactionNotAcceptedException("Transaction belongs to a different fork", transaction);
+						}
+					}
 					if (transaction.getId() == 0L) {
 						throw new TransactionNotAcceptedException("Invalid transaction id", transaction);
 					}
@@ -1129,7 +1129,9 @@ final class BlockchainProcessorImpl implements BlockchainProcessor {
 				} catch (NxtException.NotCurrentlyValidException e) {
 					continue;
 				} catch (NxtException.ValidationException e) {
+					Db.beginTransaction();
 					transactionProcessor.removeUnconfirmedTransaction(transaction.getTransaction());
+					Db.commitTransaction();
 					continue;
 				}
 

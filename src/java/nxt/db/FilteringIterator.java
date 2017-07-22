@@ -16,6 +16,11 @@ public final class FilteringIterator<T> implements Iterator<T>, Iterable<T>, Aut
     private boolean iterated;
     private int count;
 
+    public static interface Filter<T> {
+        boolean ok(T t);
+    }
+
+
     public FilteringIterator(DbIterator<T> dbIterator, Filter<T> filter) {
         this(dbIterator, filter, 0, Integer.MAX_VALUE);
     }

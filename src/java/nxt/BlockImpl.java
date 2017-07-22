@@ -370,43 +370,43 @@ final class BlockImpl implements Block {
 
     boolean verifyBlockSignature() throws BlockchainProcessor.BlockOutOfOrderException {
 
-    	try {
-    		
-    		BlockImpl previousBlock = (BlockImpl)Nxt.getBlockchain().getBlock(this.previousBlockId);
-    		if (previousBlock == null) {
+        try {
+
+            BlockImpl previousBlock = (BlockImpl)Nxt.getBlockchain().getBlock(this.previousBlockId);
+            if (previousBlock == null) {
                 throw new BlockchainProcessor.BlockOutOfOrderException("Can't verify signature because previous block is missing");
             }
-    		
-    		byte[] data = getBytes();
+
+            byte[] data = getBytes();
             byte[] data2 = new byte[data.length - 64];
             System.arraycopy(data, 0, data2, 0, data2.length);
-            
+
             byte[] publicKey;
             Account genAccount = Account.getAccount(generatorPublicKey);
             Account.RewardRecipientAssignment rewardAssignment;
             rewardAssignment = genAccount == null ? null : genAccount.getRewardRecipientAssignment();
             if(genAccount == null ||
-               rewardAssignment == null ||
-               previousBlock.getHeight() + 1 < Constants.BURST_REWARD_RECIPIENT_ASSIGNMENT_START_BLOCK) {
-            	publicKey = generatorPublicKey;
+                    rewardAssignment == null ||
+                    previousBlock.getHeight() + 1 < Constants.BURST_REWARD_RECIPIENT_ASSIGNMENT_START_BLOCK) {
+                publicKey = generatorPublicKey;
             }
             else {
-            	if(previousBlock.getHeight() + 1 >= rewardAssignment.getFromHeight()) {
-            		publicKey = Account.getAccount(rewardAssignment.getRecipientId()).getPublicKey();
-            	}
-            	else {
-            		publicKey = Account.getAccount(rewardAssignment.getPrevRecipientId()).getPublicKey();
-            	}
+                if(previousBlock.getHeight() + 1 >= rewardAssignment.getFromHeight()) {
+                    publicKey = Account.getAccount(rewardAssignment.getRecipientId()).getPublicKey();
+                }
+                else {
+                    publicKey = Account.getAccount(rewardAssignment.getPrevRecipientId()).getPublicKey();
+                }
             }
 
             return Crypto.verify(blockSignature, data2, publicKey, version >= 3);
-    		
-    	} catch (RuntimeException e) {
 
-    		Logger.logMessage("Error verifying block signature", e);
-    		return false;
+        } catch (RuntimeException e) {
 
-    	}
+            Logger.logMessage("Error verifying block signature", e);
+            return false;
+
+        }
 
     }
 
