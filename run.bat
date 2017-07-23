@@ -5,14 +5,15 @@ echo Java found at: %%~$path:f
 start "BURST" "%%~$path:f" -cp burst.jar;lib\*;conf nxt.Nxt
 goto done
 ) else (
-echo Not found in Path, Searching C drive for java
+echo Java Not found in Path, Searching C drive
 for /F "tokens=*" %%f in ('where /F /R C:\ java.exe') do (
 echo Java found at: %%f
 start "BURST" %%f -cp burst.jar;lib\*;conf nxt.Nxt
 goto done
 )
 )
-echo No Java Found on this Computer
+echo No Java Found on this Computer!
+@pause
 goto done
 :done
 
