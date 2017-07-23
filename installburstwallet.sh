@@ -14,7 +14,7 @@ CWD=`pwd`
 # Check for all dependancies and get as required
 
 if [[ $UID != 0 ]]; then
-  echo "please rerun the command with sudo ex: sudo ${0}"
+  echo "please re-run the command with sudo ex: sudo ${0}"
 exit 1
 fi
 
