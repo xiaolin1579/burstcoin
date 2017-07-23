@@ -7,6 +7,7 @@ import nxt.db.DbKey;
 import nxt.db.EntityDbTable;
 import nxt.peer.Peer;
 import nxt.peer.Peers;
+import nxt.util.Convert;
 import nxt.util.JSON;
 import nxt.util.Listener;
 import nxt.util.Listeners;
@@ -24,6 +25,18 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 final class TransactionProcessorImpl implements TransactionProcessor {
+
+    private static final Set<Long> blacklistedAccountIds = new HashSet<>();
+    static {
+        for(String accountId : Nxt.getStringListProperty("burst.blacklistedAccountIds"))
+        {
+            try {
+                blacklistedAccountIds.add(Convert.parseUnsignedLong(accountId));
+            } catch(Exception ignore) {
+                Logger.logInfoMessage("Malformed numericAccountId '" + accountId + "' could not get blacklisted." );
+            }
+        }
+    }
 
     private static final boolean enableTransactionRebroadcasting = Nxt.getBooleanProperty("nxt.enableTransactionRebroadcasting");
     private static final boolean testUnconfirmedTransactions = Nxt.getBooleanProperty("nxt.testUnconfirmedTransactions");
@@ -468,22 +481,19 @@ final class TransactionProcessorImpl implements TransactionProcessor {
             return;
         }
         List<TransactionImpl> transactions = new ArrayList<>();
-        // ---------- ADD THIS LINE: ----------
-        long attackerId = Long.parseLong("10017399077678958802");
         for (Object transactionData : transactionsData) {
             try {
                 TransactionImpl transaction = parseTransaction((JSONObject) transactionData);
-                transaction.validate();
-                // -------- ADD THIS 'IF': -------------
-                if(transaction.getSenderId() == attackerId) {
-                    Logger.logDebugMessage("Skipping transaction from attacker");
+                if(blacklistedAccountIds.contains(transaction.getSenderId())) {
+                    Logger.logDebugMessage("Skipping transaction from blacklisted account!");
                     continue;
                 }
+                transaction.validate();
                 if(!EconomicClustering.verifyFork(transaction)) {
                     /*if(Nxt.getBlockchain().getHeight() >= Constants.EC_CHANGE_BLOCK_1) {
                 		throw new NxtException.NotValidException("Transaction from wrong fork");
                 	}*/
-                	continue;
+                    continue;
                 }
                 transactions.add(transaction);
             } catch (NxtException.NotCurrentlyValidException ignore) {
